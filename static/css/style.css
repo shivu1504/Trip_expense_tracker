@@ -2175,89 +2175,6 @@ main > section:nth-child(2) > div button {
 }
 
 
-/* =========================================
-   JOIN TRIP
-========================================= */
-
-.join-trip-section {
-    margin-top: 40px;
-    padding: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.03);
-}
-
-.join-trip-form {
-    display: flex;
-    gap: 14px;
-    margin-top: 24px;
-}
-
-.join-trip-form input {
-    flex: 1;
-    padding: 15px 18px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.06);
-    color: #ffffff;
-    font-size: 16px;
-    outline: none;
-}
-
-.join-trip-form input:focus {
-    border-color: rgba(255, 255, 255, 0.35);
-}
-
-.join-trip-form button {
-    padding: 15px 24px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-
-/* MOBILE */
-
-@media (max-width: 600px) {
-
-    .join-trip-section {
-        padding: 24px 18px;
-    }
-
-    .join-trip-form {
-        flex-direction: column;
-    }
-
-    .join-trip-form button {
-        width: 100%;
-    }
-
-}
-
-
-
-/* =========================================
-   JOIN TRIP FORM
-========================================= */
-
-.join-trip-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr auto;
-    gap: 14px;
-    margin-top: 24px;
-}
-
-.join-trip-form input {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.join-trip-form button {
-    white-space: nowrap;
-}
-
 .join-error {
     margin-top: 18px;
     padding: 12px 16px;
@@ -2267,22 +2184,6 @@ main > section:nth-child(2) > div button {
     border: 1px solid rgba(255, 80, 80, 0.2);
 }
 
-
-/* =========================================
-   JOIN TRIP - MOBILE
-========================================= */
-
-@media (max-width: 600px) {
-
-    .join-trip-form {
-        grid-template-columns: 1fr;
-    }
-
-    .join-trip-form button {
-        width: 100%;
-    }
-
-}
 
 /* =========================================
    PREMIUM JOIN TRIP
@@ -2679,26 +2580,6 @@ main > section:nth-child(2) > div button {
 @media (max-width: 600px) {
 
     .trip-card {
-        min-height: 76px;
-        padding: 14px;
-    }
-
-    .trip-card-info h3 {
-        font-size: 17px;
-    }
-
-    .trip-open-btn {
-        padding: 10px 14px;
-        font-size: 13px;
-    }
-
-}
-
-
-
-@media (max-width: 600px) {
-
-    .trip-card {
         min-height: 72px;
         padding: 12px 14px;
 
@@ -2730,53 +2611,6 @@ main > section:nth-child(2) > div button {
         font-size: 12px;
     }
 
-}
-
-/* =========================================
-   CREATE TRIP - MEMBER INPUTS
-========================================= */
-
-#members-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-#members-container input {
-    background: #0b1220;
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.10);
-}
-
-#members-container input:focus {
-    background: #0b1220;
-    color: #ffffff;
-    border-color: rgba(255, 115, 25, 0.55);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 115, 25, 0.08);
-}
-
-#members-container input::placeholder {
-    color: rgba(255, 255, 255, 0.42);
-}
-
-
-/* Member inputs - same as normal inputs */
-
-#members-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-#members-container input {
-    background: inherit;
-    color: inherit;
-}
-
-#members-container input:focus {
-    background: inherit;
-    color: inherit;
 }
 
 /* =========================================
