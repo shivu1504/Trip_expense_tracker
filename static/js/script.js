@@ -749,3 +749,27 @@ if (
     );
 
 }
+
+/* =========================================
+   PWA SERVICE WORKER
+========================================= */
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", function () {
+
+        navigator.serviceWorker
+            .register("/static/service-worker.js")
+            .then(function () {
+                console.log("Service Worker registered successfully.");
+            })
+            .catch(function (error) {
+                console.error(
+                    "Service Worker registration failed:",
+                    error
+                );
+            });
+
+    });
+
+}
