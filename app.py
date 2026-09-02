@@ -12,11 +12,24 @@ from database import (
     add_expense,
     add_expense_participant,
     get_split_totals,
-    get_total_paid
+    get_total_paid,
+    initialize_database
 )
+
 
 app = Flask(__name__)
 
+
+# =========================================
+# DATABASE INITIALIZATION
+# =========================================
+
+initialize_database()
+
+
+# =========================================
+# HOME
+# =========================================
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -25,7 +38,9 @@ def home():
 
         trip_name = request.form["trip_name"].strip()
 
-        member_names = request.form.getlist("member_names")
+        member_names = request.form.getlist(
+            "member_names"
+        )
 
         member_names = [
             name.strip()
@@ -38,9 +53,15 @@ def home():
             trip_id = add_trip(trip_name)
 
             for member_name in member_names:
-                add_member(trip_id, member_name)
 
-            return redirect(f"/trip/{trip_id}")
+                add_member(
+                    trip_id,
+                    member_name
+                )
+
+            return redirect(
+                f"/trip/{trip_id}"
+            )
 
     trips = get_trips()
 
@@ -48,6 +69,11 @@ def home():
         "index.html",
         trips=trips
     )
+
+
+# =========================================
+# ADD EXPENSE
+# =========================================
 
 @app.route("/add-expense")
 def add_expense_page():
@@ -63,14 +89,29 @@ def add_expense_page():
         f"/manage-expenses/{last_trip_id}"
     )
 
-@app.route("/delete-member/<int:member_id>", methods=["POST"])
+
+# =========================================
+# DELETE MEMBER
+# =========================================
+
+@app.route(
+    "/delete-member/<int:member_id>",
+    methods=["POST"]
+)
 def delete_member_route(member_id):
 
     from database import delete_member
 
     delete_member(member_id)
 
-    return redirect(request.referrer)
+    return redirect(
+        request.referrer
+    )
+
+
+# =========================================
+# TRIP PAGE
+# =========================================
 
 @app.route("/trip/<int:trip_id>")
 def trip(trip_id):
@@ -81,9 +122,13 @@ def trip(trip_id):
 
     expenses = get_expenses(trip_id)
 
-    split_totals = get_split_totals(trip_id)
+    split_totals = get_split_totals(
+        trip_id
+    )
 
-    total_paid = get_total_paid(trip_id)
+    total_paid = get_total_paid(
+        trip_id
+    )
 
     return render_template(
         "trip.html",
@@ -94,6 +139,10 @@ def trip(trip_id):
         total_paid=total_paid
     )
 
+
+# =========================================
+# TRIP MEMORY
+# =========================================
 
 @app.route("/trip-memory/<int:trip_id>")
 def trip_memory(trip_id):
@@ -106,6 +155,10 @@ def trip_memory(trip_id):
     )
 
 
+# =========================================
+# COMPLETE TRIP
+# =========================================
+
 @app.route("/complete-trip/<int:trip_id>")
 def complete_trip(trip_id):
 
@@ -116,53 +169,98 @@ def complete_trip(trip_id):
         trip=trip
     )
 
-@app.route("/join-trip", methods=["POST"])
+
+# =========================================
+# JOIN TRIP
+# =========================================
+
+@app.route(
+    "/join-trip",
+    methods=["POST"]
+)
 def join_trip_route():
 
-    member_name = request.form["member_name"].strip()
-    trip_code = request.form["trip_code"].strip().upper()
+    member_name = request.form[
+        "member_name"
+    ].strip()
+
+    trip_code = request.form[
+        "trip_code"
+    ].strip().upper()
 
     if not member_name or not trip_code:
+
         trips = get_trips()
 
         return render_template(
             "index.html",
             trips=trips,
-            join_error="Please enter your name and Trip Code."
+            join_error=(
+                "Please enter your name "
+                "and Trip Code."
+            )
         )
 
-    trip = get_trip_by_code(trip_code)
+    trip = get_trip_by_code(
+        trip_code
+    )
 
     if not trip:
+
         trips = get_trips()
 
         return render_template(
             "index.html",
             trips=trips,
-            join_error="Trip Code not found. Please check the code and try again."
+            join_error=(
+                "Trip Code not found. "
+                "Please check the code "
+                "and try again."
+            )
         )
 
-    join_trip(trip["id"], member_name)
+    join_trip(
+        trip["id"],
+        member_name
+    )
 
-    return redirect(f"/trip/{trip['id']}")
+    return redirect(
+        f"/trip/{trip['id']}"
+    )
 
 
+# =========================================
+# MANAGE MEMBERS
+# =========================================
 
-@app.route("/manage-members/<int:trip_id>", methods=["GET", "POST"])
+@app.route(
+    "/manage-members/<int:trip_id>",
+    methods=["GET", "POST"]
+)
 def manage_members(trip_id):
 
     if request.method == "POST":
 
-        member_name = request.form["member_name"].strip()
+        member_name = request.form[
+            "member_name"
+        ].strip()
 
         if member_name:
-            add_member(trip_id, member_name)
 
-        return redirect(f"/manage-members/{trip_id}")
+            add_member(
+                trip_id,
+                member_name
+            )
+
+        return redirect(
+            f"/manage-members/{trip_id}"
+        )
 
     trip = get_trip(trip_id)
 
-    members = get_members(trip_id)
+    members = get_members(
+        trip_id
+    )
 
     return render_template(
         "manage_members.html",
@@ -170,26 +268,55 @@ def manage_members(trip_id):
         members=members
     )
 
-@app.route("/manage-expenses/<int:trip_id>", methods=["GET", "POST"])
+
+# =========================================
+# MANAGE EXPENSES
+# =========================================
+
+@app.route(
+    "/manage-expenses/<int:trip_id>",
+    methods=["GET", "POST"]
+)
 def manage_expenses(trip_id):
 
     if request.method == "POST":
 
-        expense_title = request.form["expense_title"].strip()
-        expense_amount = float(request.form["expense_amount"])
-        expense_paid_by = request.form["expense_paid_by"]
-        expense_date = request.form["expense_date"]
-      
+        expense_title = request.form[
+            "expense_title"
+        ].strip()
 
-        split_type = request.form["split_type"]
+        expense_amount = float(
+            request.form[
+                "expense_amount"
+            ]
+        )
+
+        expense_paid_by = request.form[
+            "expense_paid_by"
+        ]
+
+        expense_date = request.form[
+            "expense_date"
+        ]
+
+        split_type = request.form[
+            "split_type"
+        ]
 
         excluded_members = request.form.getlist(
             "excluded_members"
         )
 
-        if expense_title and expense_amount and expense_paid_by and expense_date:
+        if (
+            expense_title
+            and expense_amount
+            and expense_paid_by
+            and expense_date
+        ):
 
-            members = get_members(trip_id)
+            members = get_members(
+                trip_id
+            )
 
             if split_type == "all":
 
@@ -200,20 +327,23 @@ def manage_expenses(trip_id):
                 participants = [
                     member
                     for member in members
-                    if str(member["id"]) not in excluded_members
+                    if str(member["id"])
+                    not in excluded_members
                 ]
 
             if participants:
 
-                share_amount = expense_amount / len(participants)
+                share_amount = (
+                    expense_amount
+                    / len(participants)
+                )
 
                 expense_id = add_expense(
                     trip_id,
                     expense_title,
                     expense_amount,
                     expense_paid_by,
-                    expense_date,
-                   
+                    expense_date
                 )
 
                 for member in participants:
@@ -224,11 +354,20 @@ def manage_expenses(trip_id):
                         share_amount
                     )
 
-        return redirect(f"/manage-expenses/{trip_id}")
+        return redirect(
+            f"/manage-expenses/{trip_id}"
+        )
 
     trip = get_trip(trip_id)
-    members = get_members(trip_id)
-    expenses = get_expenses(trip_id)
+
+    members = get_members(
+        trip_id
+    )
+
+    expenses = get_expenses(
+        trip_id
+    )
+
     trips = get_trips()
 
     return render_template(
@@ -239,5 +378,13 @@ def manage_expenses(trip_id):
         trips=trips
     )
 
+
+# =========================================
+# RUN APP
+# =========================================
+
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    app.run(
+        debug=True
+    )
