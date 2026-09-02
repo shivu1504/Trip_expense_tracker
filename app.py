@@ -1,8 +1,10 @@
+from decimal import Decimal, ROUND_DOWN
 from flask import Flask, render_template, request, redirect
 
 from database import (
     get_trips,
     get_members,
+    get_member,
     add_trip,
     get_trip,
     get_trip_by_code,
@@ -13,11 +15,51 @@ from database import (
     add_expense_participant,
     get_split_totals,
     get_total_paid,
+    get_balances,
+    update_trip,
+    delete_trip,
+    update_member,
+    get_expense,
+    get_expense_participants,
+    update_expense,
+    delete_expense,
     initialize_database
 )
 
 
 app = Flask(__name__)
+
+
+def calculate_participant_shares(amount, participants):
+    amount = Decimal(str(amount)).quantize(Decimal("0.01"))
+    if not participants:
+        return []
+    base_share = (amount / len(participants)).quantize(Decimal("0.01"), rounding=ROUND_DOWN)
+    remainder = int((amount - base_share * len(participants)) * 100)
+    return [
+        (member["id"], base_share + (Decimal("0.01") if index < remainder else Decimal("0")))
+        for index, member in enumerate(participants)
+    ]
+
+
+def calculate_settlements(balances):
+    creditors = [[item["name"], Decimal(str(item["balance"])).quantize(Decimal("0.01"))]
+                 for item in balances if Decimal(str(item["balance"])) > 0]
+    debtors = [[item["name"], -Decimal(str(item["balance"])).quantize(Decimal("0.01"))]
+               for item in balances if Decimal(str(item["balance"])) < 0]
+    settlements = []
+    debtor_index = creditor_index = 0
+    while debtor_index < len(debtors) and creditor_index < len(creditors):
+        amount = min(debtors[debtor_index][1], creditors[creditor_index][1])
+        settlements.append({"from_name": debtors[debtor_index][0],
+                            "to_name": creditors[creditor_index][0], "amount": amount})
+        debtors[debtor_index][1] -= amount
+        creditors[creditor_index][1] -= amount
+        if debtors[debtor_index][1] == 0:
+            debtor_index += 1
+        if creditors[creditor_index][1] == 0:
+            creditor_index += 1
+    return settlements
 
 
 # =========================================
@@ -101,12 +143,31 @@ def add_expense_page():
 def delete_member_route(member_id):
 
     from database import delete_member
+    member = get_member(member_id)
+    if member:
+        delete_member(member_id)
+        return redirect(f"/manage-members/{member['trip_id']}")
+    return redirect("/")
 
-    delete_member(member_id)
 
-    return redirect(
-        request.referrer
-    )
+@app.route("/delete-trip/<int:trip_id>", methods=["POST"])
+def delete_trip_route(trip_id):
+    delete_trip(trip_id)
+    return redirect("/")
+
+
+@app.route("/edit-trip/<int:trip_id>", methods=["GET", "POST"])
+def edit_trip_route(trip_id):
+    trip = get_trip(trip_id)
+    if not trip:
+        return redirect("/")
+    if request.method == "POST":
+        name = request.form.get("trip_name", "").strip()
+        if name:
+            update_trip(trip_id, name)
+            return redirect(f"/trip/{trip_id}")
+        return render_template("edit_trip.html", trip=trip, error="Trip name is required.")
+    return render_template("edit_trip.html", trip=trip)
 
 
 # =========================================
@@ -117,6 +178,9 @@ def delete_member_route(member_id):
 def trip(trip_id):
 
     trip = get_trip(trip_id)
+
+    if not trip:
+        return redirect("/")
 
     members = get_members(trip_id)
 
@@ -130,13 +194,17 @@ def trip(trip_id):
         trip_id
     )
 
+    balances = get_balances(trip_id)
+
     return render_template(
         "trip.html",
         trip=trip,
         members=members,
         expenses=expenses,
         split_totals=split_totals,
-        total_paid=total_paid
+        total_paid=total_paid,
+        balances=balances,
+        settlements=calculate_settlements(balances)
     )
 
 
@@ -239,6 +307,10 @@ def join_trip_route():
 )
 def manage_members(trip_id):
 
+    trip = get_trip(trip_id)
+    if not trip:
+        return redirect("/")
+
     if request.method == "POST":
 
         member_name = request.form[
@@ -256,8 +328,6 @@ def manage_members(trip_id):
             f"/manage-members/{trip_id}"
         )
 
-    trip = get_trip(trip_id)
-
     members = get_members(
         trip_id
     )
@@ -269,114 +339,86 @@ def manage_members(trip_id):
     )
 
 
+@app.route("/edit-member/<int:member_id>", methods=["GET", "POST"])
+def edit_member_route(member_id):
+    member = get_member(member_id)
+    if not member:
+        return redirect("/")
+    if request.method == "POST":
+        name = request.form.get("member_name", "").strip()
+        if name:
+            update_member(member_id, name)
+            return redirect(f"/manage-members/{member['trip_id']}")
+        return render_template("edit_member.html", member=member, error="Member name is required.")
+    return render_template("edit_member.html", member=member)
+
+
 # =========================================
 # MANAGE EXPENSES
 # =========================================
 
-@app.route(
-    "/manage-expenses/<int:trip_id>",
-    methods=["GET", "POST"]
-)
+@app.route("/manage-expenses/<int:trip_id>", methods=["GET", "POST"])
 def manage_expenses(trip_id):
-
-    if request.method == "POST":
-
-        expense_title = request.form[
-            "expense_title"
-        ].strip()
-
-        expense_amount = float(
-            request.form[
-                "expense_amount"
-            ]
-        )
-
-        expense_paid_by = request.form[
-            "expense_paid_by"
-        ]
-
-        expense_date = request.form[
-            "expense_date"
-        ]
-
-        split_type = request.form[
-            "split_type"
-        ]
-
-        excluded_members = request.form.getlist(
-            "excluded_members"
-        )
-
-        if (
-            expense_title
-            and expense_amount
-            and expense_paid_by
-            and expense_date
-        ):
-
-            members = get_members(
-                trip_id
-            )
-
-            if split_type == "all":
-
-                participants = members
-
-            else:
-
-                participants = [
-                    member
-                    for member in members
-                    if str(member["id"])
-                    not in excluded_members
-                ]
-
-            if participants:
-
-                share_amount = (
-                    expense_amount
-                    / len(participants)
-                )
-
-                expense_id = add_expense(
-                    trip_id,
-                    expense_title,
-                    expense_amount,
-                    expense_paid_by,
-                    expense_date
-                )
-
-                for member in participants:
-
-                    add_expense_participant(
-                        expense_id,
-                        member["id"],
-                        share_amount
-                    )
-
-        return redirect(
-            f"/manage-expenses/{trip_id}"
-        )
-
     trip = get_trip(trip_id)
+    if not trip:
+        return redirect("/")
+    if request.method == "POST":
+        title = request.form.get("expense_title", "").strip()
+        try:
+            amount = Decimal(request.form.get("expense_amount", "0")).quantize(Decimal("0.01"))
+        except Exception:
+            amount = Decimal("0")
+        paid_by = request.form.get("expense_paid_by", "")
+        expense_date = request.form.get("expense_date", "")
+        excluded = request.form.getlist("excluded_members")
+        members = get_members(trip_id)
+        participants = members if request.form.get("split_type") == "all" else [
+            member for member in members if str(member["id"]) not in excluded
+        ]
+        member_ids = {str(member["id"]) for member in members}
+        if title and amount > 0 and paid_by in member_ids and expense_date and participants:
+            expense_id = add_expense(trip_id, title, amount, paid_by, expense_date)
+            for member_id, share_amount in calculate_participant_shares(amount, participants):
+                add_expense_participant(expense_id, member_id, share_amount)
+        return redirect(f"/manage-expenses/{trip_id}")
+    return render_template("manage_expenses.html", trip=trip, members=get_members(trip_id),
+                           expenses=get_expenses(trip_id), trips=get_trips())
 
-    members = get_members(
-        trip_id
-    )
 
-    expenses = get_expenses(
-        trip_id
-    )
+@app.route("/edit-expense/<int:expense_id>", methods=["GET", "POST"])
+def edit_expense_route(expense_id):
+    expense = get_expense(expense_id)
+    if not expense:
+        return redirect("/")
+    trip_id = expense["trip_id"]
+    members = get_members(trip_id)
+    participants = get_expense_participants(expense_id)
+    if request.method == "POST":
+        title = request.form.get("expense_title", "").strip()
+        try:
+            amount = Decimal(request.form.get("expense_amount", "0")).quantize(Decimal("0.01"))
+        except Exception:
+            amount = Decimal("0")
+        selected = members if request.form.get("split_type") == "all" else [
+            member for member in members if str(member["id"]) not in request.form.getlist("excluded_members")
+        ]
+        member_ids = {str(member["id"]) for member in members}
+        if title and amount > 0 and request.form.get("expense_paid_by") in member_ids and request.form.get("expense_date") and selected:
+            update_expense(expense_id, title, amount, request.form["expense_paid_by"],
+                           request.form["expense_date"], calculate_participant_shares(amount, selected))
+            return redirect(f"/trip/{trip_id}")
+        return render_template("edit_expense.html", expense=expense, members=members,
+                               participants=participants, error="Enter valid details and select a participant.")
+    return render_template("edit_expense.html", expense=expense, members=members, participants=participants)
 
-    trips = get_trips()
 
-    return render_template(
-        "manage_expenses.html",
-        trip=trip,
-        members=members,
-        expenses=expenses,
-        trips=trips
-    )
+@app.route("/delete-expense/<int:expense_id>", methods=["POST"])
+def delete_expense_route(expense_id):
+    expense = get_expense(expense_id)
+    if not expense:
+        return redirect("/")
+    delete_expense(expense_id)
+    return redirect(f"/trip/{expense['trip_id']}")
 
 
 # =========================================

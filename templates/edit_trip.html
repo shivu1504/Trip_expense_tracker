@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Trip - {{ trip.name }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header><h1>Edit Trip</h1><p>{{ trip.name }}</p></header>
+    <main>
+        <section>
+            <h2>Trip Details</h2>
+            {% if error %}<p class="form-error">{{ error }}</p>{% endif %}
+            <form method="POST">
+                <label for="trip-name">Trip Name</label>
+                <input id="trip-name" name="trip_name" value="{{ trip.name }}" maxlength="100" required>
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+        <section class="trip-navigation"><a href="/trip/{{ trip.id }}"><button type="button">Back to Trip</button></a></section>
+    </main>
+</body>
+</html>

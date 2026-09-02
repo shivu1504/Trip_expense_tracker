@@ -18,6 +18,7 @@
     <header>
 
         <h1>{{ trip.name }}</h1>
+        <a href="/edit-trip/{{ trip.id }}"><button type="button">Edit Trip</button></a>
 
         <div class="trip-code-box">
 
@@ -110,6 +111,14 @@
 
                         </div>
 
+                        <div class="row-actions">
+                            <a href="/edit-expense/{{ expense.id }}"><button type="button">Edit</button></a>
+                            <form method="POST" action="/delete-expense/{{ expense.id }}"
+                                  onsubmit="return confirm('Delete this expense?');">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+
                     </div>
 
                 {% endfor %}
@@ -156,6 +165,20 @@
 
             {% endif %}
 
+        </section>
+
+        <section>
+            <h2>Final Balance</h2>
+            {% for balance in balances %}
+                <div class="member-row"><span>{{ balance.name }}</span><span>₹{{ "%.2f"|format(balance.balance) }}</span></div>
+            {% else %}<p>No balances yet.</p>{% endfor %}
+        </section>
+
+        <section>
+            <h2>Repayments</h2>
+            {% for settlement in settlements %}
+                <div class="member-row"><span>{{ settlement.from_name }} → {{ settlement.to_name }}</span><span>₹{{ "%.2f"|format(settlement.amount) }}</span></div>
+            {% else %}<p>No repayments needed.</p>{% endfor %}
         </section>
 
         <section>

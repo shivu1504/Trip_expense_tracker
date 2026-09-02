@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Expense - {{ expense.title }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/script.js" defer></script>
+</head>
+<body>
+    <header><h1>Edit Expense</h1><p>{{ expense.title }} | {{ expense.trip_id }}</p></header>
+    <main>
+        <section>
+            <h2>Expense Details</h2>
+            {% if error %}<p class="form-error">{{ error }}</p>{% endif %}
+            <form method="POST">
+                <label for="expense-title">Expense Title</label>
+                <input id="expense-title" name="expense_title" value="{{ expense.title }}" required>
+                <label for="expense-amount">Amount</label>
+                <input id="expense-amount" name="expense_amount" type="number" step="0.01" min="0.01" value="{{ expense.amount }}" required>
+                <label for="expense-paid-by">Paid By</label>
+                <select id="expense-paid-by" name="expense_paid_by" required>
+                    {% for member in members %}<option value="{{ member.id }}" {% if member.id == expense.paid_by %}selected{% endif %}>{{ member.name }}</option>{% endfor %}
+                </select>
+                <label>Split Between</label>
+                <div class="split-options">
+                    <label><input type="radio" name="split_type" value="all" {% if participants|length == members|length %}checked{% endif %}> All Members</label>
+                    <label><input type="radio" name="split_type" value="except" {% if participants|length != members|length %}checked{% endif %}> Except</label>
+                </div>
+                <div id="except-members" style="display: none;">
+                    <p>Select members to exclude:</p>
+                    {% for member in members %}<label><input type="checkbox" name="excluded_members" value="{{ member.id }}" {% if member.id not in participants|map(attribute='member_id')|list %}checked{% endif %}> {{ member.name }}</label>{% endfor %}
+                </div>
+                <label for="expense-date">Expense Date</label>
+                <input id="expense-date" name="expense_date" type="date" value="{{ expense.expense_date }}" required>
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+        <section class="expense-navigation"><a href="/trip/{{ expense.trip_id }}"><button type="button">Back to Trip</button></a></section>
+    </main>
+</body>
+</html>

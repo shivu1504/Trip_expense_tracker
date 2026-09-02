@@ -13,8 +13,10 @@ if (expenseDate) {
         today.getDate()
     ).padStart(2, "0");
 
-    expenseDate.value =
-        `${year}-${month}-${day}`;
+    if (!expenseDate.value) {
+        expenseDate.value =
+            `${year}-${month}-${day}`;
+    }
 }
 
 
@@ -31,27 +33,28 @@ const exceptMembers =
 
 if (exceptMembers) {
 
+    function updateExcludedMembersVisibility() {
+        const exceptSelected =
+            document.querySelector('input[name="split_type"][value="except"]:checked');
+
+        exceptMembers.style.display =
+            exceptSelected ? "block" : "none";
+    }
+
     splitOptions.forEach(function (option) {
 
         option.addEventListener(
             "change",
             function () {
 
-                if (
-                    option.value === "except" &&
-                    option.checked
-                ) {
-                    exceptMembers.style.display =
-                        "block";
-                } else {
-                    exceptMembers.style.display =
-                        "none";
-                }
+                updateExcludedMembersVisibility();
 
             }
         );
 
     });
+
+    updateExcludedMembersVisibility();
 
 }
 

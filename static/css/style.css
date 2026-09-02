@@ -2639,3 +2639,23 @@ main > section:nth-child(2) > div button {
 #members-container input::placeholder {
     color: rgba(255, 255, 255, 0.42);
 }
+
+.member-input-row,
+.row-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.member-input-row input {
+    flex: 1;
+}
+
+.row-actions form {
+    display: inline-flex;
+}
+
+.row-actions button,
+.remove-member-btn {
+    white-space: nowrap;
+}

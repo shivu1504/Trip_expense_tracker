@@ -342,6 +342,16 @@ def get_members(trip_id):
     return members
 
 
+def get_member(member_id):
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM members WHERE id = %s", (member_id,))
+    member = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    return member
+
+
 # =========================================
 # DELETE MEMBER
 # =========================================
@@ -351,16 +361,24 @@ def delete_member(member_id):
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    cursor.execute(
-        """
-        DELETE FROM members
-        WHERE id = %s
-        """,
-        (member_id,)
-    )
+    cursor.execute("DELETE FROM expense_participants WHERE member_id = %s", (member_id,))
+    cursor.execute("DELETE FROM expenses WHERE paid_by = %s", (member_id,))
+    cursor.execute("DELETE FROM members WHERE id = %s", (member_id,))
 
     connection.commit()
 
+    cursor.close()
+    connection.close()
+
+
+def update_member(member_id, name):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute(
+        "UPDATE members SET name = %s WHERE id = %s",
+        (name, member_id)
+    )
+    connection.commit()
     cursor.close()
     connection.close()
 
@@ -514,6 +532,103 @@ def add_expense_participant(
     connection.close()
 
 
+def get_expense(expense_id):
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(
+        """
+        SELECT expenses.*, members.name AS paid_by_name
+        FROM expenses
+        JOIN members ON expenses.paid_by = members.id
+        WHERE expenses.id = %s
+        """,
+        (expense_id,)
+    )
+    expense = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    return expense
+
+
+def update_expense(expense_id, title, amount, paid_by, expense_date, participants):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(
+            """
+            UPDATE expenses
+            SET title = %s, amount = %s, paid_by = %s, expense_date = %s
+            WHERE id = %s
+            """,
+            (title, amount, paid_by, expense_date, expense_id)
+        )
+        cursor.execute(
+            "DELETE FROM expense_participants WHERE expense_id = %s",
+            (expense_id,)
+        )
+        cursor.executemany(
+            """
+            INSERT INTO expense_participants (expense_id, member_id, share_amount)
+            VALUES (%s, %s, %s)
+            """,
+            [
+                (expense_id, member_id, share_amount)
+                for member_id, share_amount in participants
+            ]
+        )
+        connection.commit()
+    except Exception:
+        connection.rollback()
+        raise
+    finally:
+        cursor.close()
+        connection.close()
+
+
+def delete_expense(expense_id):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("DELETE FROM expense_participants WHERE expense_id = %s", (expense_id,))
+    cursor.execute("DELETE FROM expenses WHERE id = %s", (expense_id,))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+def update_trip(trip_id, name):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("UPDATE trips SET name = %s WHERE id = %s", (name, trip_id))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+def delete_trip(trip_id):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(
+            """
+            DELETE expense_participants
+            FROM expense_participants
+            JOIN expenses ON expense_participants.expense_id = expenses.id
+            WHERE expenses.trip_id = %s
+            """,
+            (trip_id,)
+        )
+        cursor.execute("DELETE FROM expenses WHERE trip_id = %s", (trip_id,))
+        cursor.execute("DELETE FROM members WHERE trip_id = %s", (trip_id,))
+        cursor.execute("DELETE FROM trips WHERE id = %s", (trip_id,))
+        connection.commit()
+    except Exception:
+        connection.rollback()
+        raise
+    finally:
+        cursor.close()
+        connection.close()
+
+
 # =========================================
 # GET EXPENSE PARTICIPANTS
 # =========================================
@@ -648,7 +763,10 @@ def get_split_totals(trip_id):
             members.name,
 
             COALESCE(
-                SUM(expense_participants.share_amount),
+                SUM(
+                    CASE WHEN expenses.trip_id = %s
+                    THEN expense_participants.share_amount ELSE 0 END
+                ),
                 0
             ) AS total_share
 
@@ -672,6 +790,7 @@ def get_split_totals(trip_id):
         ORDER BY members.id ASC
         """,
         (
+            trip_id,
             trip_id,
             trip_id
         )

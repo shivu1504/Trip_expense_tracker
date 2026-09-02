@@ -60,16 +60,19 @@
                             {{ member.name }}
                         </span>
 
+                        <div class="row-actions">
+                            <a href="/edit-member/{{ member.id }}"><button type="button">Edit</button></a>
+
                         <form
                             method="POST"
                             action="/delete-member/{{ member.id }}"
                         >
 
-                            <button type="submit">
+                            <button type="submit" onclick="return confirm('Delete this member and expenses they paid for?');">
                                 Delete
                             </button>
 
-                        </form>
+                        </form></div>
 
                     </div>
 

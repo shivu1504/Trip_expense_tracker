@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Member - {{ member.name }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header><h1>Edit Member</h1><p>{{ member.name }}</p></header>
+    <main>
+        <section>
+            <h2>Member Details</h2>
+            {% if error %}<p class="form-error">{{ error }}</p>{% endif %}
+            <form method="POST">
+                <label for="member-name">Member Name</label>
+                <input id="member-name" name="member_name" value="{{ member.name }}" maxlength="100" required>
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+        <section class="trip-navigation"><a href="/manage-members/{{ member.trip_id }}"><button type="button">Back to Members</button></a></section>
+    </main>
+</body>
+</html>

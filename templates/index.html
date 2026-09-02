@@ -52,12 +52,9 @@
 
                 <div id="members-container">
 
-                    <input
-                        type="text"
-                        name="member_names"
-                        placeholder="Enter member name"
-                        required
-                    >
+                    <div class="member-input-row">
+                        <input type="text" name="member_names" placeholder="Enter member name" required>
+                    </div>
 
                 </div>
 
@@ -180,6 +177,11 @@
                                 Open Trip
                             </a>
 
+                            <form method="POST" action="/delete-trip/{{ trip.id }}"
+                                  onsubmit="return confirm('Are you sure you want to delete this trip? All members and expenses associated with it will also be deleted.');">
+                                <button type="submit">Delete Trip</button>
+                            </form>
+
                         </div>
 
                     {% endfor %}
@@ -228,19 +230,13 @@
             "click",
             function () {
 
-                const input =
-                    document.createElement("input");
-
-                input.type = "text";
-
-                input.name = "member_names";
-
-                input.placeholder =
-                    "Enter member name";
-
-                input.required = true;
-
-                membersContainer.appendChild(input);
+                const row = document.createElement("div");
+                row.className = "member-input-row";
+                row.innerHTML = '<input type="text" name="member_names" placeholder="Enter member name"><button type="button" class="remove-member-btn">Remove</button>';
+                row.querySelector(".remove-member-btn").addEventListener("click", function () {
+                    row.remove();
+                });
+                membersContainer.appendChild(row);
 
             }
         );
