@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Trip Expense Tracker</title>
+  <desc id="desc">A travel suitcase with a rupee symbol and airplane</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff3d16"/>
+      <stop offset="0.52" stop-color="#ff8a00"/>
+      <stop offset="1" stop-color="#e91624"/>
+    </linearGradient>
+    <linearGradient id="suitcase" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#fff"/>
+      <stop offset="1" stop-color="#f4f4f4"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#7b0718" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="92" fill="url(#background)"/>
+  <path d="M-30 430c102-80 195-48 299-76 91-25 155-88 243-156v270H-30z" fill="#b50738" opacity=".35"/>
+  <g filter="url(#shadow)">
+    <path d="M198 171v-37c0-19 15-34 34-34h48c19 0 34 15 34 34v37h-27v-34c0-5-4-9-9-9h-44c-5 0-9 4-9 9v34z" fill="url(#suitcase)"/>
+    <rect x="133" y="163" width="246" height="247" rx="34" fill="url(#suitcase)"/>
+    <path d="M173 163h28v247h-28zm138 0h28v247h-28z" fill="#ed3218"/>
+    <circle cx="255" cy="278" r="68" fill="#ff7013"/>
+    <path d="M222 245h68l-13 18h-21c10 5 16 12 18 22h25l-13 18h-12c-5 22-22 34-48 36l51 46h-34l-54-51v-25h27c10 0 17-2 21-6h-47l13-18h31c-4-9-11-14-22-14h-36z" fill="#fff"/>
+  </g>
+  <path d="M92 360c68 15 162-7 245-60 42-27 66-57 82-89l-8 54 45-35-39 66-34-18c-26 40-66 74-119 99-72 34-145 45-189 31-19-6-24-29 17-48z" fill="#fff" filter="url(#shadow)"/>
+  <path d="m369 154 54 14 55-31c12-7 24-2 18 11l-49 60 9 52c2 12-7 18-16 9l-25-36-62-37c-12-7-10-18 3-16z" fill="#fff" filter="url(#shadow)"/>
+</svg>
