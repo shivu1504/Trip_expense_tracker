@@ -33,12 +33,14 @@ def create_database():
 def get_db_connection():
     connection = mysql.connector.connect(
         host=DB_HOST,
+        port=DB_PORT,
         user=DB_USER,
         password=DB_PASSWORD,
         database=DB_NAME
     )
 
     return connection
+
 
 
 # -------------------------
@@ -301,6 +303,7 @@ def create_expense_participants_table():
             id INT AUTO_INCREMENT PRIMARY KEY,
             expense_id INT NOT NULL,
             member_id INT NOT NULL,
+            share_amount DECIMAL(10, 2) NOT NULL,
 
             FOREIGN KEY (expense_id)
                 REFERENCES expenses(id)
