@@ -179,7 +179,7 @@ def manage_expenses(trip_id):
         expense_amount = float(request.form["expense_amount"])
         expense_paid_by = request.form["expense_paid_by"]
         expense_date = request.form["expense_date"]
-        expense_notes = request.form["expense_notes"].strip()
+      
 
         split_type = request.form["split_type"]
 
@@ -213,7 +213,7 @@ def manage_expenses(trip_id):
                     expense_amount,
                     expense_paid_by,
                     expense_date,
-                    expense_notes
+                   
                 )
 
                 for member in participants:

@@ -1,19 +1,23 @@
 import mysql.connector
 import random
 import string
+import os
 
 
-DB_HOST = "localhost"
-DB_USER = "root"
-DB_PASSWORD = "root"
-DB_NAME = "expense_tracker"
+DB_HOST = os.getenv("MYSQLHOST", "localhost")
+DB_PORT = int(os.getenv("MYSQLPORT", "3306"))
+DB_USER = os.getenv("MYSQLUSER", "root")
+DB_PASSWORD = os.getenv("MYSQLPASSWORD", "root")
+DB_NAME = os.getenv("MYSQLDATABASE", "expense_tracker")
 
 
 def create_database():
     connection = mysql.connector.connect(
         host=DB_HOST,
+        port=DB_PORT,
         user=DB_USER,
-        password=DB_PASSWORD
+        password=DB_PASSWORD,
+        database=DB_NAME
     )
 
     cursor = connection.cursor()
@@ -358,39 +362,21 @@ def get_expense_participants(expense_id):
 
     return participants
 
-def add_expense(
-    trip_id,
-    title,
-    amount,
-    paid_by,
-    expense_date,
-    notes
-):
+def add_expense(trip_id, title, amount, paid_by, expense_date):
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    cursor.execute(
-        """
+    cursor.execute("""
         INSERT INTO expenses
-        (
-            trip_id,
-            title,
-            amount,
-            paid_by,
-            expense_date,
-            notes
-        )
-        VALUES (%s, %s, %s, %s, %s, %s)
-        """,
-        (
-            trip_id,
-            title,
-            amount,
-            paid_by,
-            expense_date,
-            notes
-        )
-    )
+        (trip_id, title, amount, paid_by, expense_date)
+        VALUES (%s, %s, %s, %s, %s)
+    """, (
+        trip_id,
+        title,
+        amount,
+        paid_by,
+        expense_date
+    ))
 
     connection.commit()
 
@@ -400,7 +386,6 @@ def add_expense(
     connection.close()
 
     return expense_id
-
 
 def get_expenses(trip_id):
     connection = get_db_connection()
