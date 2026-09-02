@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Complete Trip - {{ trip.name }}</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+</head>
+
+<body>
+
+    <main class="completion-page">
+
+        <div class="completion-card">
+
+            <div class="completion-icon">
+                📸
+            </div>
+
+            <h1>
+                One Last Thing...
+            </h1>
+
+            <h2>
+                Let's save the memories.
+            </h2>
+
+            <div class="completion-message">
+
+                <p>
+                    Har trip ke kuch pal aise hote hain
+                    jo dobara nahi aate.
+                </p>
+
+                <p>
+                    Apni gallery se
+                    <span>kam se kam 5 group photos</span>
+                    select karo.
+                </p>
+
+                <p>
+                    Hum un photos ko ek
+                    <span>30-second memory experience</span>
+                    mein turn karenge.
+                </p>
+
+            </div>
+
+
+            <!-- Photo Selection -->
+
+            <div class="memory-upload">
+
+                <label
+                    for="trip-photos"
+                    class="photo-upload-box"
+                >
+                    <span class="upload-icon">
+                        📷
+                    </span>
+
+                    <span class="upload-title">
+                        Choose Group Photos
+                    </span>
+
+                    <span class="upload-subtitle">
+                        Select at least 5 photos from your gallery
+                    </span>
+                </label>
+
+
+                <input
+                    type="file"
+                    id="trip-photos"
+                    accept="image/*"
+                    multiple
+                    hidden
+                >
+
+
+                <p
+                    id="photo-count"
+                    class="photo-count"
+                >
+                    0 photos selected
+                </p>
+
+
+                <div
+                    id="photo-preview"
+                    class="photo-preview"
+                ></div>
+
+
+                <p
+                    id="photo-error"
+                    class="photo-error"
+                ></p>
+
+
+                <button
+                    type="button"
+                    id="start-memory-btn"
+                    disabled
+                >
+                    ✨ Start Memory
+                </button>
+
+            </div>
+
+
+            <div class="completion-actions">
+
+                <a href="/trip/{{ trip.id }}">
+                    <button type="button">
+                        ← Back to Trip
+                    </button>
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+        const tripMemoryUrl = "/trip-memory/{{ trip.id }}";
+    </script>
+
+    <script src="/static/js/script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ trip.name }} - Trip Expense Tracker</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+
+<body>
+
+    <header>
+
+        <h1>{{ trip.name }}</h1>
+
+        <div class="trip-code-box">
+
+            <div>
+                <span class="trip-code-label">TRIP CODE</span>
+
+                <strong id="trip-code">
+                    {{ trip.trip_code }}
+                </strong>
+            </div>
+
+            <button
+                type="button"
+                id="copy-trip-code"
+                class="copy-trip-code-btn"
+            >
+                📋 Copy
+            </button>
+
+        </div>
+
+        <p class="trip-code-help">
+            Share this code with your friends so they can join this trip.
+        </p>
+
+        <p>Trip Expense Tracker</p>
+
+    </header>
+
+
+    <main>
+
+
+        <!-- Members -->
+
+        <section>
+
+            <h2>Members</h2>
+
+            {% if members %}
+
+                {% for member in members %}
+
+                    <div class="member-row">
+                        <span>{{ member.name }}</span>
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>No members added yet.</p>
+
+            {% endif %}
+
+            <a href="/manage-members/{{ trip.id }}">
+                <button type="button">
+                    Manage Members
+                </button>
+            </a>
+
+        </section>
+
+
+        <!-- Expenses -->
+
+        <section>
+
+            <h2>Expenses</h2>
+
+            {% if expenses %}
+
+                {% for expense in expenses %}
+
+                    <div class="expense-row">
+
+                        <div>
+
+                            <h3>{{ expense.title }}</h3>
+
+                            <p>₹{{ expense.amount }}</p>
+
+                            <p>
+                                Paid by: {{ expense.paid_by_name }}
+                            </p>
+
+                            <p>
+                                {{ expense.expense_date }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>No expenses added yet.</p>
+
+            {% endif %}
+
+            </a>
+
+        </section>
+
+        <!-- Balances -->
+
+        <section>
+
+            <h2>Split Expenses</h2>
+
+            {% if split_totals %}
+
+                {% for split in split_totals %}
+
+                    <div class="member-row">
+
+                        <span>
+                            {{ split.name }}
+                        </span>
+
+                        <span>
+                            ₹{{ "%.2f"|format(split.total_share) }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    No split expenses yet.
+                </p>
+
+            {% endif %}
+
+        </section>
+
+        <section>
+
+            <h2>Total Paid</h2>
+
+            {% if total_paid %}
+
+                {% for member in total_paid %}
+
+                    <div class="member-row">
+
+                        <span>
+                            {{ member.name }}
+                        </span>
+
+                        <span>
+                            ₹{{ "%.2f"|format(member.total_paid) }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    No payments yet.
+                </p>
+
+            {% endif %}
+
+        </section>
+
+        <section class="trip-navigation">
+
+            <a href="/complete-trip/{{ trip.id }}">
+                <button type="button">
+                    🏁 Complete Trip
+                </button>
+            </a>
+
+           
+
+        </section>
+
+
+    </main>
+    <section class="trip-navigation">
+        <a href="/">
+            <button type="button">← Back to Home</button>
+        </a>
+    </section>
+    <a
+        href="/add-expense"
+        class="floating-expense-btn"
+    >
+        <span>+</span>
+        Add Expense
+    </a>
+
+    <script src="/static/js/script.js" defer></script>
+
+</body>
+
+</html>

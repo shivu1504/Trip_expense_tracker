@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ trip.name }} — Memories</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+
+</head>
+
+<body class="memory-body">
+
+    <main class="memory-screen">
+
+        <audio id="memory-music" loop>
+            <source src="/static/music/memory-music.mp3" type="audio/mpeg">
+        </audio>
+
+        <div
+            id="memory-photo-container"
+            class="memory-photo-container"
+        ></div>
+
+
+        <div class="memory-overlay"></div>
+
+
+        <div class="memory-content">
+
+            <p
+                id="memory-small-text"
+                class="memory-small-text"
+            >
+                OUR JOURNEY
+            </p>
+
+
+            <h1
+                id="memory-title"
+                class="memory-title"
+            >
+                {{ trip.name }}
+            </h1>
+
+
+            <p
+                id="memory-message"
+                class="memory-message"
+            >
+                Every journey leaves something behind.
+            </p>
+
+
+            <div class="memory-progress">
+
+                <div
+                    id="memory-progress-bar"
+                    class="memory-progress-bar"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="memory-final"
+            class="memory-final"
+        >
+
+            <div class="memory-final-icon">
+                🎉
+            </div>
+
+            <h1>
+                Congratulations!
+            </h1>
+
+            <h2>
+                You have collected a lot of memories.
+            </h2>
+
+            <p>
+                Safar khatam ho gaya...
+                <br>
+                lekin yaadein abhi baaki hain.
+            </p>
+
+            <p>
+                Kuch pal photos mein reh jaate hain,
+                <br>
+                aur kuch hamesha dil mein.
+            </p>
+
+            <p>
+                <span>
+                    Ye sirf ek trip nahi tha.
+                </span>
+                <br>
+                Ye ek kahani thi jo tum sabne saath likhi.
+            </p>
+
+            <div class="memory-final-buttons">
+
+                <a href="/trip/{{ trip.id }}">
+                    <button type="button">
+                        ← Back to Trip
+                    </button>
+                </a>
+
+                <a href="/">
+                    <button type="button">
+                        🏠 Go Home
+                    </button>
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const memoryTripUrl =
+            "/trip/{{ trip.id }}";
+
+    </script>
+
+    <script src="/static/js/script.js"></script>
+
+</body>
+
+</html>

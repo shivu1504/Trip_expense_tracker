@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Members - {{ trip.name }}</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Manage Members</h1>
+        <p>{{ trip.name }}</p>
+    </header>
+
+    <main>
+
+        <section>
+
+            <h2>Add Member</h2>
+
+            <form method="POST">
+
+                <label for="member-name">
+                    Member Name
+                </label>
+
+                <input
+                    type="text"
+                    id="member-name"
+                    name="member_name"
+                    placeholder="Enter member name"
+                    required
+                >
+
+                <button type="submit">
+                    Add Member
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <section>
+
+            <h2>Members</h2>
+
+            {% if members %}
+
+                {% for member in members %}
+
+                    <div class="member-row">
+
+                        <span>
+                            {{ member.name }}
+                        </span>
+
+                        <form
+                            method="POST"
+                            action="/delete-member/{{ member.id }}"
+                        >
+
+                            <button type="submit">
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>No members added yet.</p>
+
+            {% endif %}
+
+        </section>
+
+
+        <section>
+
+            <a href="/trip/{{ trip.id }}">
+                <button type="button">
+                    Back to Trip
+                </button>
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

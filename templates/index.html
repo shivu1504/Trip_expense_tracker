@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Trip Expense Tracker</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+</head>
+
+<body>
+
+    <header>
+        <h1>Trip Expense Tracker</h1>
+        <p>Manage your group trip expenses easily.</p>
+    </header>
+
+
+    <main>
+
+        <!-- Create Trip -->
+
+        <section>
+
+            <h2>Create Trip</h2>
+
+            <form method="POST">
+
+                <label for="trip-name">
+                    Trip Name
+                </label>
+
+                <input
+                    type="text"
+                    id="trip-name"
+                    name="trip_name"
+                    placeholder="Enter trip name"
+                    required
+                >
+
+
+                <label>
+                    Members
+                </label>
+
+                <div id="members-container">
+
+                    <input
+                        type="text"
+                        name="member_names"
+                        placeholder="Enter member name"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="add-member-btn"
+                >
+                    + Add Member
+                </button>
+
+
+                <button type="submit">
+                    Create Trip
+                </button>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- Join Trip -->
+
+        <section class="join-trip-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">
+                    JOIN A TRIP
+                </p>
+
+                <h2>
+                    Already have a Trip Code?
+                </h2>
+
+                <p>
+                    Enter your name and the code shared
+                    by your trip member.
+                </p>
+
+            </div>
+
+
+            {% if join_error %}
+
+                <p class="join-error">
+                    ❌ {{ join_error }}
+                </p>
+
+            {% endif %}
+
+
+            <form
+                action="/join-trip"
+                method="POST"
+                class="join-trip-form"
+            >
+
+                <input
+                    type="text"
+                    name="member_name"
+                    placeholder="Your Name"
+                    maxlength="100"
+                    required
+                >
+
+
+                <input
+                    type="text"
+                    name="trip_code"
+                    placeholder="Enter Trip Code"
+                    maxlength="20"
+                    required
+                >
+
+
+                <button type="submit">
+                    Join Trip
+                </button>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- My Trips -->
+
+        <section>
+
+            <h2>My Trips</h2>
+
+
+            {% if trips %}
+
+                <div class="trips-list">
+
+                    {% for trip in trips %}
+
+                        <div class="trip-card">
+
+                            <div class="trip-card-info">
+
+                                <h3>
+                                    {{ trip.name }}
+                                </h3>
+
+                                <p>
+                                    Trip #{{ trip.id }}
+                                </p>
+
+                            </div>
+
+
+                            <a
+                                href="/trip/{{ trip.id }}"
+                                class="trip-open-btn"
+                            >
+                                Open Trip
+                            </a>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <p>
+                    No trips created yet.
+                </p>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+
+
+    <!-- Add Expense -->
+
+    <a
+        href="/add-expense"
+        class="floating-expense-btn"
+    >
+
+        <span>+</span>
+
+        Add Expense
+
+    </a>
+
+
+
+    <script>
+
+        const membersContainer =
+            document.getElementById("members-container");
+
+        const addMemberButton =
+            document.getElementById("add-member-btn");
+
+
+        addMemberButton.addEventListener(
+            "click",
+            function () {
+
+                const input =
+                    document.createElement("input");
+
+                input.type = "text";
+
+                input.name = "member_names";
+
+                input.placeholder =
+                    "Enter member name";
+
+                input.required = true;
+
+                membersContainer.appendChild(input);
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

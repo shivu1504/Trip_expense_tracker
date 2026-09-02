@@ -1,0 +1,2807 @@
+/* =========================================
+   TRIP EXPENSE TRACKER
+   Premium Dark Cinematic UI
+========================================= */
+
+:root {
+    --bg: #07080d;
+    --bg-soft: #0d111c;
+
+    --surface: #121827;
+    --surface-2: #182235;
+    --surface-3: #202c43;
+
+    --text: #f8fafc;
+    --muted: #94a3b8;
+
+    --orange: #ff7a18;
+    --orange-light: #ff9f43;
+
+    --pink: #ec4899;
+    --yellow: #facc15;
+
+    --blue: #6366f1;
+
+    --border: rgba(255, 255, 255, 0.09);
+
+    --shadow: rgba(0, 0, 0, 0.45);
+}
+
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+body {
+    font-family: Arial, sans-serif;
+
+    color: var(--text);
+
+    min-height: 100vh;
+
+    padding: 28px 16px;
+
+    background:
+        radial-gradient(
+            circle at 10% 5%,
+            rgba(236, 72, 153, 0.12),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(99, 102, 241, 0.14),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(255, 122, 24, 0.08),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #05060a,
+            #0a0d15 50%,
+            #07080d
+        );
+
+    background-attachment: fixed;
+
+    overflow-x: hidden;
+}
+
+
+/* Cinematic overlay */
+
+body::before {
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.015) 50%,
+            transparent 100%
+        );
+
+    z-index: -1;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+header {
+    max-width: 760px;
+
+    margin: 0 auto 32px;
+
+    padding: 30px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #172033 55%,
+            #111827
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.40),
+        0 0 35px rgba(99, 102, 241, 0.07);
+
+    animation: headerReveal 0.7s ease both;
+}
+
+
+/* Header glow */
+
+header::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    right: -80px;
+    top: -100px;
+
+    background: var(--pink);
+
+    opacity: 0.08;
+
+    border-radius: 50%;
+
+    filter: blur(30px);
+
+    animation: headerGlow 4s ease-in-out infinite;
+}
+
+
+header h1 {
+    position: relative;
+
+    margin-bottom: 8px;
+
+    font-size: 32px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.8px;
+
+    color: #ffffff;
+
+    z-index: 1;
+}
+
+
+header p {
+    position: relative;
+
+    color: var(--orange-light);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.3px;
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   MAIN
+========================================= */
+
+main {
+    max-width: 760px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   SECTIONS / CARDS
+========================================= */
+
+section {
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 25px;
+
+    margin-bottom: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(24, 34, 53, 0.97),
+            rgba(15, 23, 42, 0.97)
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 18px 45px var(--shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    animation: cardReveal 0.65s ease both;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* Orange top glow */
+
+section::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 45%;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--orange),
+            var(--pink),
+            transparent
+        );
+
+    opacity: 0.9;
+}
+
+
+section:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(255, 122, 24, 0.25);
+
+    box-shadow:
+        0 25px 55px rgba(0, 0, 0, 0.50),
+        0 0 30px rgba(255, 122, 24, 0.05);
+}
+
+
+/* Different entrance delays */
+
+section:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+section:nth-child(2) {
+    animation-delay: 0.12s;
+}
+
+section:nth-child(3) {
+    animation-delay: 0.19s;
+}
+
+section:nth-child(4) {
+    animation-delay: 0.26s;
+}
+
+section:nth-child(5) {
+    animation-delay: 0.33s;
+}
+
+
+/* =========================================
+   HEADINGS
+========================================= */
+
+section h2 {
+    margin-bottom: 20px;
+
+    color: var(--orange);
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.3px;
+}
+
+
+section h3 {
+    font-size: 16px;
+
+    margin-bottom: 8px;
+
+    color: #f8fafc;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+label {
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #cbd5e1;
+
+    margin-top: 3px;
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+input,
+select {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid rgba(148, 163, 184, 0.18);
+
+    border-radius: 11px;
+
+    background: #0c1320;
+
+    color: #f8fafc;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+input:hover,
+select:hover {
+    border-color: rgba(255, 122, 24, 0.35);
+}
+
+
+input:focus,
+select:focus {
+    background: #101a2b;
+
+    border-color: var(--orange);
+
+    box-shadow:
+        0 0 0 3px rgba(255, 122, 24, 0.10),
+        0 0 22px rgba(255, 122, 24, 0.08);
+
+    transform: translateY(-1px);
+}
+
+
+input::placeholder {
+    color: #64748b;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+button {
+    width: fit-content;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    padding: 9px 15px;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            #f4511e
+        );
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+
+/* Shine */
+
+button::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 80%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.22),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.5s ease;
+}
+
+
+button:hover::before {
+    left: 140%;
+}
+
+
+button:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.08);
+
+    box-shadow:
+        0 8px 22px rgba(255, 122, 24, 0.25);
+}
+
+
+button:active {
+    transform: translateY(0);
+
+    box-shadow: none;
+}
+
+
+/* =========================================
+   LINKS
+========================================= */
+
+a {
+    text-decoration: none;
+}
+
+
+/* =========================================
+   ADD MEMBER BUTTON
+========================================= */
+
+#add-member-btn {
+    margin-top: 5px;
+
+    background: transparent;
+
+    color: var(--orange-light);
+
+    border: 1px dashed rgba(255, 122, 24, 0.55);
+
+    box-shadow: none;
+}
+
+
+#add-member-btn:hover {
+    background: rgba(255, 122, 24, 0.08);
+
+    border-color: var(--orange);
+
+    box-shadow:
+        0 0 18px rgba(255, 122, 24, 0.10);
+}
+
+
+/* =========================================
+   MEMBER ROW
+========================================= */
+
+.member-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    transition:
+        padding 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.member-row:last-child {
+    border-bottom: none;
+}
+
+
+.member-row:hover {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+
+.member-row span {
+    font-size: 15px;
+
+    font-weight: 500;
+
+    color: #e2e8f0;
+}
+
+
+/* =========================================
+   EXPENSE ROW
+========================================= */
+
+.expense-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 16px 18px;
+
+    margin-bottom: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(30, 41, 59, 0.85),
+            rgba(15, 23, 42, 0.90)
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 13px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.expense-row:hover {
+    transform: translateX(4px);
+
+    border-color: rgba(255, 122, 24, 0.30);
+
+    box-shadow:
+        -4px 0 0 var(--orange),
+        0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+
+.expense-row h3 {
+    font-size: 17px;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+
+    color: #f8fafc;
+}
+
+
+.expense-row p {
+    color: #94a3b8;
+
+    font-size: 13px;
+
+    margin-top: 3px;
+}
+
+
+.expense-row p:first-of-type {
+    color: var(--yellow);
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================================
+   SPLIT OPTIONS
+========================================= */
+
+.split-options {
+    display: flex;
+
+    gap: 22px;
+
+    margin-top: 8px;
+
+    margin-bottom: 12px;
+}
+
+
+.split-options label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    cursor: pointer;
+
+    color: #cbd5e1;
+}
+
+
+.split-options input[type="radio"] {
+    width: auto;
+
+    margin: 0;
+
+    accent-color: var(--orange);
+}
+
+
+/* =========================================
+   EXCLUDED MEMBERS
+========================================= */
+
+#except-members {
+    margin-top: 10px;
+
+    padding: 14px;
+
+    background: rgba(236, 72, 153, 0.06);
+
+    border: 1px solid rgba(236, 72, 153, 0.15);
+
+    border-radius: 12px;
+
+    animation: softReveal 0.25s ease;
+}
+
+
+#except-members p {
+    margin-bottom: 10px;
+
+    color: var(--pink);
+}
+
+
+#except-members label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 8px;
+
+    cursor: pointer;
+}
+
+
+#except-members input[type="checkbox"] {
+    width: auto;
+
+    margin: 0;
+
+    accent-color: var(--pink);
+}
+
+
+/* =========================================
+   FORM SUBMIT
+========================================= */
+
+form > button[type="submit"] {
+    margin-top: 8px;
+}
+
+
+/* =========================================
+   TRIP SELECTOR
+========================================= */
+
+.expense-trip-selector {
+    margin-top: 18px;
+
+    padding: 13px 15px;
+
+    background: rgba(99, 102, 241, 0.08);
+
+    border: 1px solid rgba(99, 102, 241, 0.18);
+
+    border-radius: 12px;
+}
+
+
+.expense-trip-selector span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+
+.expense-trip-selector strong {
+    color: var(--yellow);
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.trip-navigation,
+.expense-navigation {
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+}
+
+
+/* =========================================
+   FLOATING ADD EXPENSE
+========================================= */
+
+.floating-expense-btn {
+    position: fixed;
+
+    right: 20px;
+    bottom: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 13px 19px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            #8b5cf6
+        );
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 999px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 12px 30px rgba(99, 102, 241, 0.30);
+
+    z-index: 1000;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.floating-expense-btn span {
+    font-size: 20px;
+
+    line-height: 1;
+}
+
+
+.floating-expense-btn:hover {
+    transform: translateY(-4px) scale(1.02);
+
+    box-shadow:
+        0 18px 38px rgba(99, 102, 241, 0.42);
+}
+
+
+.floating-expense-btn::after {
+    content: "";
+
+    position: absolute;
+
+    inset: -4px;
+
+    border-radius: inherit;
+
+    border: 1px solid rgba(139, 92, 246, 0.25);
+
+    animation: floatingPulse 2.5s ease-in-out infinite;
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes headerReveal {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-20px)
+            scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+@keyframes cardReveal {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+@keyframes softReveal {
+    from {
+        opacity: 0;
+
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes headerGlow {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.07;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 0.13;
+    }
+}
+
+
+@keyframes floatingPulse {
+    0%,
+    100% {
+        opacity: 0.2;
+
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.55;
+
+        transform: scale(1.04);
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 18px 12px;
+    }
+
+    header {
+        padding: 23px 20px;
+
+        margin-bottom: 23px;
+
+        border-radius: 18px;
+    }
+
+    header h1 {
+        font-size: 27px;
+    }
+
+    header p {
+        font-size: 13px;
+    }
+
+    section {
+        padding: 19px;
+
+        border-radius: 16px;
+
+        margin-bottom: 17px;
+    }
+
+    section h2 {
+        font-size: 19px;
+    }
+
+    button {
+        font-size: 12px;
+
+        padding: 8px 12px;
+    }
+
+    .expense-row {
+        padding: 14px;
+    }
+
+    .split-options {
+        gap: 14px;
+    }
+
+    .completion-card {
+        padding: 45px 20px;
+
+        border-radius: 22px;
+    }
+
+    .completion-card h1 {
+        font-size: 29px;
+    }
+
+    .completion-card h2 {
+        font-size: 19px;
+    }
+
+    .completion-message {
+        font-size: 14px;
+
+        line-height: 1.8;
+    }
+
+    .floating-expense-btn {
+        right: 15px;
+
+        bottom: 15px;
+
+        width: 54px;
+
+        height: 54px;
+
+        padding: 0;
+
+        justify-content: center;
+
+        border-radius: 50%;
+    }
+
+    .floating-expense-btn {
+        font-size: 0;
+    }
+
+    .floating-expense-btn span {
+        font-size: 24px;
+    }
+}
+
+/* =========================================
+   MY TRIPS
+========================================= */
+
+main > section:nth-child(2) > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+main > section:nth-child(2) > div:last-child {
+    border-bottom: none;
+}
+
+main > section:nth-child(2) > div h3 {
+    margin: 0;
+
+    color: #f8fafc;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+main > section:nth-child(2) > div button {
+    flex-shrink: 0;
+}
+
+
+
+/* =========================================
+   COMPLETED TRIP PAGE
+========================================= */
+
+.completion-page {
+    min-height: 85vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Animated background glow */
+
+.completion-page::before {
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 122, 24, 0.18),
+            rgba(236, 72, 153, 0.08),
+            transparent 70%
+        );
+
+    filter: blur(20px);
+
+    animation: completionGlow 4s ease-in-out infinite;
+}
+
+
+/* Main card */
+
+.completion-card {
+    width: 100%;
+    max-width: 760px;
+
+    position: relative;
+    z-index: 2;
+
+    padding: 55px 35px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #151d31,
+            #0d1422
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.55),
+        0 0 45px rgba(236, 72, 153, 0.08);
+
+    overflow: hidden;
+
+    animation: completionReveal 0.9s ease both;
+}
+
+
+/* Orange light line */
+
+.completion-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+
+    width: 60%;
+    height: 3px;
+
+    transform: translateX(-50%);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #ff7a18,
+            #ec4899,
+            #facc15,
+            transparent
+        );
+
+    box-shadow:
+        0 0 20px rgba(255, 122, 24, 0.5);
+}
+
+
+/* Celebration icon */
+
+.completion-icon {
+    position: relative;
+
+    font-size: 58px;
+
+    margin-bottom: 20px;
+
+    animation:
+        celebrationPop 1s ease both,
+        celebrationFloat 3s ease-in-out 1s infinite;
+}
+
+
+/* Main heading */
+
+.completion-card h1 {
+    position: relative;
+
+    margin-bottom: 12px;
+
+    color: #ff8a3d;
+
+    font-size: 38px;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+
+    animation: textReveal 0.8s ease 0.25s both;
+}
+
+
+/* Subtitle */
+
+.completion-card h2 {
+    position: relative;
+
+    margin-bottom: 25px;
+
+    color: #ffffff;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    animation: textReveal 0.8s ease 0.4s both;
+}
+
+
+/* Emotional message */
+
+.completion-message {
+    position: relative;
+
+    max-width: 620px;
+
+    margin: 0 auto 32px;
+
+    color: #aeb9ca;
+
+    font-size: 15px;
+
+    line-height: 1.9;
+
+    animation: textReveal 0.8s ease 0.55s both;
+}
+
+
+.completion-message p {
+    margin-bottom: 10px;
+}
+
+
+.completion-message span {
+    color: #facc15;
+
+    font-weight: 700;
+}
+
+
+/* Buttons */
+
+.completion-actions {
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    animation: textReveal 0.8s ease 0.75s both;
+}
+
+
+/* =========================================
+   COMPLETION ANIMATIONS
+========================================= */
+
+@keyframes completionReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(45px)
+            scale(0.92);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+@keyframes celebrationPop {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            scale(0.3)
+            rotate(-20deg);
+    }
+
+    60% {
+        transform:
+            scale(1.2)
+            rotate(8deg);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            scale(1)
+            rotate(0);
+    }
+}
+
+
+@keyframes celebrationFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-9px);
+    }
+}
+
+
+@keyframes completionGlow {
+
+    0%,
+    100% {
+        opacity: 0.45;
+
+        transform:
+            translate(-50%, -50%)
+            scale(0.9);
+    }
+
+    50% {
+        opacity: 0.8;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.2);
+    }
+}
+
+
+@keyframes textReveal {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================
+   MEMORY PHOTO UPLOAD
+========================================= */
+
+.memory-upload {
+    position: relative;
+
+    margin-top: 28px;
+    padding: 22px;
+
+    background: rgba(8, 13, 25, 0.65);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 18px;
+}
+
+
+/* Upload area */
+
+.photo-upload-box {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 150px;
+
+    padding: 25px;
+
+    border: 1.5px dashed rgba(255, 122, 24, 0.55);
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 122, 24, 0.07),
+            rgba(236, 72, 153, 0.05)
+        );
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.photo-upload-box:hover {
+    transform: translateY(-3px);
+
+    border-color: var(--orange);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 122, 24, 0.12),
+            rgba(236, 72, 153, 0.08)
+        );
+
+    box-shadow:
+        0 12px 30px rgba(255, 122, 24, 0.10);
+}
+
+
+/* Camera icon */
+
+.upload-icon {
+    font-size: 38px;
+
+    animation:
+        cameraFloat 2.5s ease-in-out infinite;
+}
+
+
+/* Main text */
+
+.upload-title {
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 800;
+}
+
+
+/* Small text */
+
+.upload-subtitle {
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    text-align: center;
+}
+
+
+/* Photo counter */
+
+.photo-count {
+    margin-top: 15px;
+
+    text-align: center;
+
+    color: var(--yellow);
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* Error / status */
+
+.photo-error {
+    min-height: 20px;
+
+    margin-top: 6px;
+
+    text-align: center;
+
+    color: var(--pink);
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   PHOTO PREVIEW
+========================================= */
+
+.photo-preview {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 8px;
+
+    margin-top: 16px;
+}
+
+
+.photo-preview img {
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    opacity: 0;
+
+    animation: photoAppear 0.45s ease forwards;
+
+    transition:
+        transform 0.25s ease,
+        filter 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.photo-preview img:hover {
+    transform:
+        scale(1.06)
+        rotate(1deg);
+
+    filter: brightness(1.1);
+
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.40);
+}
+
+
+/* =========================================
+   START MEMORY BUTTON
+========================================= */
+
+#start-memory-btn {
+    display: block;
+
+    margin: 22px auto 0;
+
+    padding: 13px 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--pink)
+        );
+
+    border: none;
+
+    border-radius: 999px;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 10px 28px rgba(236, 72, 153, 0.20);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        opacity 0.25s ease;
+}
+
+
+#start-memory-btn:not(:disabled) {
+    animation:
+        memoryButtonPulse 2s ease-in-out infinite;
+}
+
+
+#start-memory-btn:not(:disabled):hover {
+    transform:
+        translateY(-3px)
+        scale(1.03);
+
+    box-shadow:
+        0 15px 35px rgba(236, 72, 153, 0.35);
+}
+
+
+#start-memory-btn:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+
+    animation: none;
+
+    box-shadow: none;
+}
+
+
+/* =========================================
+   MEMORY UPLOAD ANIMATIONS
+========================================= */
+
+@keyframes cameraFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+
+@keyframes photoAppear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            scale(0.75)
+            translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+}
+
+
+@keyframes memoryButtonPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 10px 28px rgba(236, 72, 153, 0.20);
+    }
+
+    50% {
+        box-shadow:
+            0 12px 38px rgba(255, 122, 24, 0.35);
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .memory-upload {
+        padding: 15px;
+    }
+
+    .photo-upload-box {
+        min-height: 135px;
+
+        padding: 20px;
+    }
+
+    .photo-preview {
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 7px;
+    }
+
+    .upload-icon {
+        font-size: 32px;
+    }
+}
+
+/* =========================================
+   CINEMATIC MEMORY EXPERIENCE
+========================================= */
+
+.memory-body {
+    padding: 0;
+    overflow: hidden;
+    background: #030408;
+}
+
+
+/* Main screen */
+
+.memory-screen {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    min-height: 600px;
+
+    overflow: hidden;
+
+    background: #030408;
+}
+
+
+/* =========================================
+   PHOTO
+========================================= */
+
+.memory-photo-container {
+    position: absolute;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    background: #030408;
+
+    z-index: 1;
+}
+
+
+.memory-photo {
+    position: absolute;
+
+    inset: -5%;
+
+    width: 110%;
+    height: 110%;
+
+    object-fit: cover;
+
+    opacity: 0;
+
+    transform: scale(1.08);
+
+    filter:
+        brightness(0.55)
+        saturate(1.05);
+
+    transition:
+        opacity 1.2s ease,
+        transform 7s ease;
+}
+
+
+.memory-photo-visible {
+    opacity: 1;
+
+    transform: scale(1.00);
+}
+
+
+.memory-photo-exit {
+    opacity: 0;
+
+    transform: scale(1.12);
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+}
+
+
+/* =========================================
+   CINEMATIC OVERLAY
+========================================= */
+
+.memory-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.55),
+            rgba(0, 0, 0, 0.12) 35%,
+            rgba(0, 0, 0, 0.25) 60%,
+            rgba(0, 0, 0, 0.80)
+        );
+}
+
+
+/* =========================================
+   TEXT
+========================================= */
+
+.memory-content {
+    position: absolute;
+
+    z-index: 5;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: min(900px, 90%);
+
+    text-align: center;
+
+    color: #ffffff;
+}
+
+
+.memory-small-text {
+    margin-bottom: 18px;
+
+    color: #facc15;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 5px;
+
+    text-transform: uppercase;
+
+    opacity: 0.95;
+}
+
+
+.memory-title {
+    margin-bottom: 20px;
+
+    color: #ffffff;
+
+    font-size: clamp(42px, 7vw, 82px);
+
+    line-height: 1.05;
+
+    font-weight: 900;
+
+    letter-spacing: -2px;
+
+    text-shadow:
+        0 5px 25px rgba(0, 0, 0, 0.70);
+}
+
+
+.memory-message {
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    color: #f1f5f9;
+
+    font-size: clamp(20px, 2.5vw, 30px);
+
+    line-height: 1.5;
+
+    font-weight: 500;
+
+    text-shadow:
+        0 3px 18px rgba(0, 0, 0, 0.85);
+}
+
+
+/* Text transition */
+
+.memory-text-change {
+    animation:
+        memoryTextReveal 1s ease both;
+}
+
+
+/* =========================================
+   PROGRESS BAR
+========================================= */
+
+.memory-progress {
+    position: absolute;
+
+    z-index: 10;
+
+    left: 5%;
+    right: 5%;
+
+    bottom: 28px;
+
+    height: 3px;
+
+    overflow: hidden;
+
+    background:
+        rgba(255, 255, 255, 0.18);
+
+    border-radius: 999px;
+}
+
+
+.memory-progress-bar {
+    width: 0;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff7a18,
+            #ec4899,
+            #facc15
+        );
+
+    box-shadow:
+        0 0 12px rgba(255, 122, 24, 0.55);
+
+    transition:
+        width 0.5s ease;
+}
+
+
+/* =========================================
+   FINAL SCREEN
+========================================= */
+
+.memory-final {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 20;
+
+    display: none;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(236, 72, 153, 0.13),
+            transparent 40%
+        ),
+        #030408;
+
+    opacity: 0;
+
+    transform: scale(1.04);
+
+    transition:
+        opacity 1.5s ease,
+        transform 1.5s ease;
+}
+
+
+.memory-final-visible {
+    opacity: 1;
+
+    transform: scale(1);
+}
+
+
+.memory-final-icon {
+    font-size: 75px;
+
+    margin-bottom: 25px;
+
+    animation:
+        finalIconFloat 2.5s ease-in-out infinite;
+}
+
+
+.memory-final h1 {
+    margin-bottom: 15px;
+
+    color: #ff8a3d;
+
+    font-size: clamp(42px, 7vw, 76px);
+
+    font-weight: 900;
+
+    letter-spacing: -2px;
+}
+
+
+.memory-final h2 {
+    margin-bottom: 25px;
+
+    color: #ffffff;
+
+    font-size: clamp(22px, 3vw, 34px);
+
+    font-weight: 700;
+}
+
+
+.memory-final p {
+    margin-bottom: 12px;
+
+    color: #cbd5e1;
+
+    font-size: clamp(17px, 2vw, 22px);
+
+    line-height: 1.7;
+}
+
+
+.memory-final p span {
+    color: #facc15;
+
+    font-weight: 800;
+}
+
+
+.memory-final-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    margin-top: 25px;
+
+    flex-wrap: wrap;
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes memoryTextReveal {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.97);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+@keyframes finalIconFloat {
+
+    0%,
+    100% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translateY(-12px)
+            rotate(4deg);
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .memory-content {
+        width: 88%;
+    }
+
+    .memory-small-text {
+        font-size: 11px;
+
+        letter-spacing: 3px;
+
+        margin-bottom: 14px;
+    }
+
+    .memory-title {
+        font-size: 42px;
+
+        letter-spacing: -1px;
+
+        margin-bottom: 16px;
+    }
+
+    .memory-message {
+        font-size: 19px;
+
+        line-height: 1.55;
+    }
+
+    .memory-progress {
+        bottom: 20px;
+    }
+
+    .memory-final {
+        padding: 20px;
+    }
+
+    .memory-final-icon {
+        font-size: 58px;
+    }
+
+    .memory-final h1 {
+        font-size: 42px;
+    }
+
+    .memory-final h2 {
+        font-size: 21px;
+    }
+
+    .memory-final p {
+        font-size: 16px;
+    }
+}
+
+
+/* =========================================
+   JOIN TRIP
+========================================= */
+
+.join-trip-section {
+    margin-top: 40px;
+    padding: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.join-trip-form {
+    display: flex;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.join-trip-form input {
+    flex: 1;
+    padding: 15px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+    font-size: 16px;
+    outline: none;
+}
+
+.join-trip-form input:focus {
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.join-trip-form button {
+    padding: 15px 24px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .join-trip-section {
+        padding: 24px 18px;
+    }
+
+    .join-trip-form {
+        flex-direction: column;
+    }
+
+    .join-trip-form button {
+        width: 100%;
+    }
+
+}
+
+
+
+/* =========================================
+   JOIN TRIP FORM
+========================================= */
+
+.join-trip-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.join-trip-form input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.join-trip-form button {
+    white-space: nowrap;
+}
+
+.join-error {
+    margin-top: 18px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    background: rgba(255, 80, 80, 0.08);
+    border: 1px solid rgba(255, 80, 80, 0.2);
+}
+
+
+/* =========================================
+   JOIN TRIP - MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .join-trip-form {
+        grid-template-columns: 1fr;
+    }
+
+    .join-trip-form button {
+        width: 100%;
+    }
+
+}
+
+/* =========================================
+   PREMIUM JOIN TRIP
+========================================= */
+
+.join-trip-section {
+    margin-top: 48px;
+    padding: 36px 38px 40px;
+    border: 1px solid rgba(255, 115, 25, 0.28);
+    border-radius: 24px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.045),
+            rgba(255, 255, 255, 0.015)
+        );
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.join-trip-section .section-heading {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
+    align-items: center;
+    gap: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.join-trip-section .section-label {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.2;
+}
+
+.join-trip-section .section-heading h2 {
+    margin: 0;
+    font-size: clamp(28px, 3vw, 42px);
+    line-height: 1.08;
+    letter-spacing: -1px;
+}
+
+.join-trip-section .section-heading p:last-child {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.72;
+}
+
+.join-trip-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.join-trip-form input {
+    height: 58px;
+    padding: 0 20px;
+    box-sizing: border-box;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.055);
+    color: #ffffff;
+
+    font-size: 16px;
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.join-trip-form input::placeholder {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.join-trip-form input:focus {
+    border-color: rgba(255, 115, 25, 0.65);
+
+    background: rgba(255, 255, 255, 0.075);
+
+    box-shadow:
+        0 0 0 4px rgba(255, 115, 25, 0.08);
+}
+
+.join-trip-form button {
+    height: 58px;
+    padding: 0 30px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: linear-gradient(
+        135deg,
+        #ff8a3d,
+        #ff5a16
+    );
+
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(255, 90, 22, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.join-trip-form button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 32px rgba(255, 90, 22, 0.32);
+}
+
+.join-error {
+    margin-top: 18px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .join-trip-section {
+        padding: 28px 22px 30px;
+    }
+
+    .join-trip-section .section-heading {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .join-trip-section .section-label {
+        margin-bottom: 8px;
+    }
+
+    .join-trip-section .section-heading h2 {
+        font-size: 30px;
+    }
+
+    .join-trip-form {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .join-trip-form input,
+    .join-trip-form button {
+        width: 100%;
+        height: 56px;
+    }
+
+}
+
+/* =========================================
+   TRIP CODE
+========================================= */
+
+.trip-code-box {
+    margin-top: 20px;
+    padding: 18px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    border: 1px solid rgba(255, 115, 25, 0.25);
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.trip-code-label {
+    display: block;
+    margin-bottom: 6px;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    opacity: 0.55;
+}
+
+.trip-code-box strong {
+    font-size: 25px;
+    letter-spacing: 5px;
+}
+
+.copy-trip-code-btn {
+    padding: 11px 18px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.copy-trip-code-btn:hover {
+    background: rgba(255, 115, 25, 0.12);
+    border-color: rgba(255, 115, 25, 0.4);
+}
+
+.trip-code-help {
+    margin-top: 10px;
+    font-size: 13px;
+    opacity: 0.55;
+}
+
+@media (max-width: 600px) {
+
+    .trip-code-box {
+        align-items: flex-start;
+    }
+
+    .trip-code-box strong {
+        font-size: 22px;
+    }
+
+    .copy-trip-code-btn {
+        padding: 10px 14px;
+    }
+
+}
+
+/* =========================================
+   PROFESSIONAL MEMBERS LIST
+========================================= */
+
+.members-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.member-item {
+    min-height: 58px;
+    padding: 0 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.member-item:hover {
+    background: rgba(255, 255, 255, 0.055);
+    border-color: rgba(255, 115, 25, 0.22);
+    transform: translateX(2px);
+}
+
+.member-name {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.member-delete-btn {
+    padding: 8px 12px;
+
+    border: 1px solid rgba(255, 80, 80, 0.18);
+    border-radius: 9px;
+
+    background: rgba(255, 80, 80, 0.06);
+    color: #ff8d8d;
+
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.member-delete-btn:hover {
+    background: rgba(255, 80, 80, 0.12);
+}
+
+
+/* =========================================
+   MY TRIPS - PROFESSIONAL
+========================================= */
+
+.trips-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.trip-card {
+    width: 100%;
+    min-height: 82px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 16px 18px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.trip-card:hover {
+    background: rgba(255, 255, 255, 0.055);
+    border-color: rgba(255, 115, 25, 0.25);
+    transform: translateY(-1px);
+}
+
+.trip-card-info {
+    min-width: 0;
+}
+
+.trip-card-info h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.trip-card-info p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    opacity: 0.45;
+}
+
+.trip-open-btn {
+    flex-shrink: 0;
+
+    padding: 11px 20px;
+
+    border-radius: 11px;
+
+    background: linear-gradient(
+        135deg,
+        #ff8a3d,
+        #ff5a16
+    );
+
+    color: white;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.trip-open-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(255, 90, 22, 0.25);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .trip-card {
+        min-height: 76px;
+        padding: 14px;
+    }
+
+    .trip-card-info h3 {
+        font-size: 17px;
+    }
+
+    .trip-open-btn {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+}
+
+
+
+@media (max-width: 600px) {
+
+    .trip-card {
+        min-height: 72px;
+        padding: 12px 14px;
+
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .trip-card-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .trip-card-info h3 {
+        font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .trip-card-info p {
+        font-size: 11px;
+    }
+
+    .trip-open-btn {
+        flex-shrink: 0;
+        padding: 9px 13px;
+        font-size: 12px;
+    }
+
+}
+
+/* =========================================
+   CREATE TRIP - MEMBER INPUTS
+========================================= */
+
+#members-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#members-container input {
+    background: #0b1220;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+#members-container input:focus {
+    background: #0b1220;
+    color: #ffffff;
+    border-color: rgba(255, 115, 25, 0.55);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 115, 25, 0.08);
+}
+
+#members-container input::placeholder {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+
+/* Member inputs - same as normal inputs */
+
+#members-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#members-container input {
+    background: inherit;
+    color: inherit;
+}
+
+#members-container input:focus {
+    background: inherit;
+    color: inherit;
+}
+
+/* =========================================
+   CREATE TRIP - MEMBER INPUT FIX
+========================================= */
+
+#members-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#members-container input,
+#members-container input:focus {
+    background: rgba(255, 255, 255, 0.035) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    outline: none;
+}
+
+#members-container input:focus {
+    border-color: rgba(255, 115, 25, 0.55);
+    box-shadow: 0 0 0 3px rgba(255, 115, 25, 0.08);
+}
+
+#members-container input::placeholder {
+    color: rgba(255, 255, 255, 0.42);
+}
